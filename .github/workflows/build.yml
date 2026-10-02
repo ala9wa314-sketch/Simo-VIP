@@ -14,21 +14,24 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Set up JDK 17
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Grant execute permission for gradlew
+    - name: Grant execute permissions
       run: |
-        find . -name "gradlew" -exec chmod +x {} \; || true
+        chmod +x gradlew 2>/dev/null || true
+        find . -name "gradlew" -exec chmod +x {} \; 2>/dev/null || true
 
     - name: Build APK with Gradle
       run: |
         if [ -f "./gradlew" ]; then
           ./gradlew assembleDebug
-        elif [ -f "./app/gradlew" ]; then
-          cd app && ./gradlew assembleDebug
+        elif find . -maxdepth 2 -name "gradlew" | grep -q .; then
+          GRADLE_PATH=$(find . -maxdepth 2 -name "gradlew" | head -n 1)
+          DIR=$(dirname "$GRADLE_PATH")
+          cd "$DIR" && ./gradlew assembleDebug
         else
           gradle assembleDebug
         fi
