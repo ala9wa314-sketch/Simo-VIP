@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simo VIP Injector</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
+      color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    /* خلفية متدرجة مع حركة خفيفة */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes float {
+      0% { transform: translate(-50px, -50px); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: rgba(30, 41, 59, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 45px 32px;
+      border-radius: 28px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                  0 0 30px rgba(99, 102, 241, 0.15);
+      text-align: center;
+      backdrop-filter: blur(16px);
+      animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .title {
+      font-size: 30px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #a5b4fc 0%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: #94a3b8;
+      margin-bottom: 32px;
+    }
+
+    .input-group {
+      margin-bottom: 25px;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      padding: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      background: rgba(15, 23, 42, 0.8);
+      color: #f8fafc;
+      border-radius: 16px;
+      text-align: center;
+      font-size: 18px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input[type="password"]:focus {
+      border-color: #818cf8;
+      box-shadow: 0 0 20px rgba(129, 140, 248, 0.35);
+    }
+
+    .btn {
+      position: relative;
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 18px;
+      cursor: pointer;
+      margin-bottom: 18px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-login {
+      background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-enable {
+      background: linear-gradient(135deg, #15803d 0%, #22c55e 100%);
+      color: #ffffff;
+      opacity: 0.75;
+    }
+
+    .btn-disable {
+      background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
+      color: #ffffff;
+      opacity: 0.75;
+    }
+
+    /* تأثير اللمعان المتحرك */
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -150%;
+      width: 100%;
+      height: 200%;
+      background: linear-gradient(
+        60deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+      );
+      transform: rotate(25deg);
+      transition: all 0.7s ease;
+    }
+
+    /* حالة التفعيل اللامعة والإطار النابض */
+    .active-mode {
+      opacity: 1 !important;
+      font-size: 19px;
+    }
+
+    .active-mode::after {
+      animation: shine 2.5s infinite;
+    }
+
+    @keyframes shine {
+      0% { left: -150%; }
+      50% { left: 150%; }
+      100% { left: 150%; }
+    }
+
+    .active-enable {
+      box-shadow: 0 0 25px rgba(34, 197, 94, 0.8),
+                  0 0 0 3px #4ade80,
+                  inset 0 0 15px rgba(255, 255, 255, 0.3);
+      animation: pulse-green 2s infinite alternate;
+    }
+
+    @keyframes pulse-green {
+      0% { box-shadow: 0 0 15px rgba(34, 197, 94, 0.6), 0 0 0 2px #4ade80; }
+      100% { box-shadow: 0 0 30px rgba(34, 197, 94, 0.9), 0 0 0 4px #86efac; }
+    }
+
+    .active-disable {
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.8),
+                  0 0 0 3px #f87171,
+                  inset 0 0 15px rgba(255, 255, 255, 0.3);
+      animation: pulse-red 2s infinite alternate;
+    }
+
+    @keyframes pulse-red {
+      0% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.6), 0 0 0 2px #f87171; }
+      100% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.9), 0 0 0 4px #fca5a5; }
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- واجهة تسجيل الدخول -->
+  <div id="loginSection" class="card">
+    <div class="title">Simo VIP</div>
+    <div class="subtitle">أدخل كلمة السر للوصول إلى لوحة التحكم</div>
+    
+    <div class="input-group">
+      <input type="password" id="passInput" placeholder="أدخل كلمة السر..." onkeydown="handleKeyPress(event)">
+    </div>
+    
+    <button class="btn btn-login" onclick="checkPassword()">تسجيل الدخول</button>
+  </div>
+
+  <!-- الواجهة الرئيسية -->
+  <div id="mainSection" class="card hidden">
+    <div class="title">لوحة التحكم VIP</div>
+    <div class="subtitle">إدارة ملفات التفعيل</div>
+
+    <button id="enableBtn" class="btn btn-enable" onclick="triggerEnable()">تفعيل</button>
+    <button id="disableBtn" class="btn btn-disable" onclick="triggerDisable()">تعطيل</button>
+  </div>
+
+  <script>
+    const PASS_KEY = "Simo VIP";
+
+    function playBeep(freq = 440, duration = 0.1) {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function handleKeyPress(e) {
+      if (e.key === "Enter") {
+        checkPassword();
+      }
+    }
+
+    function checkPassword() {
+      const input = document.getElementById("passInput").value;
+      if (input === PASS_KEY) {
+        playBeep(880, 0.15);
+        document.getElementById("loginSection").classList.add("hidden");
+        document.getElementById("mainSection").classList.remove("hidden");
+      } else {
+        playBeep(220, 0.25);
+        alert("كلمة السر غير صحيحة!");
+      }
+    }
+
+    function triggerEnable() {
+      playBeep(600, 0.1);
+
+      const enableBtn = document.getElementById("enableBtn");
+      const disableBtn = document.getElementById("disableBtn");
+
+      // تفعيل حالة اللمعان لزر التفعيل وإزالتها من زر التعطيل
+      enableBtn.classList.add("active-mode", "active-enable");
+      disableBtn.classList.remove("active-mode", "active-disable");
+
+      if (window.AndroidBridge) {
+        window.AndroidBridge.enableGlitches();
+      } else {
+        alert("التطبيق لا يعمل داخل نظام أندرويد المستهدف (الجسر غير متصل)");
+      }
+    }
+
+    function triggerDisable() {
+      playBeep(400, 0.1);
+
+      const enableBtn = document.getElementById("enableBtn");
+      const disableBtn = document.getElementById("disableBtn");
+
+      // تفعيل حالة اللمعان لزر التعطيل وإزالتها من زر التفعيل
+      disableBtn.classList.add("active-mode", "active-disable");
+      enableBtn.classList.remove("active-mode", "active-enable");
+
+      if (window.AndroidBridge) {
+        window.AndroidBridge.disableGlitches();
+      } else {
+        alert("التطبيق لا يعمل داخل نظام أندرويد المستهدف (الجسر غير متصل)");
+      }
+    }
+  </script>
+</body>
+</html>
